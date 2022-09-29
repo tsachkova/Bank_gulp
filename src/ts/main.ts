@@ -1,8 +1,6 @@
 
-console.log(document.body)
 document.body.append(document.createElement('form'));
 let mainForm = document.querySelector('form')!;
-console.log(mainForm)
 mainForm.id = 'mainForm';
 
 let startParents = document.querySelector('form') as HTMLElement;
