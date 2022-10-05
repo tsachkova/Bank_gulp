@@ -44,15 +44,15 @@ class GetPutClientData {
         document.getElementById('idEditClient')!.textContent += `${this.clientData.id}`;
         document.getElementById('dateEditClient')!.textContent += `${this.clientData.date}`;
 
-        let debetAccountForms = document.getElementById('debet')!;
+        let debetAccountForms: HTMLElement = document.getElementById('debet')!;
 
-        for (let i = 0; i < this.clientData.debet.length; i++) {
+        for (let i: number = 0; i < this.clientData.debet.length; i++) {
             new Accounts({ bankAcountsData: this.clientData.debet[i] }, debetAccountForms).generateAccountsForm().putAccountsData();
         }
 
-        let creditAccountForms = document.getElementById('credit')!;
+        let creditAccountForms: HTMLElement = document.getElementById('credit')!;
 
-        for (let i = 0; i < this.clientData.credit.length; i++) {
+        for (let i: number = 0; i < this.clientData.credit.length; i++) {
             new Accounts({ bankAcountsData: this.clientData.credit[i] }, creditAccountForms).generateAccountsForm().putAccountsData();
         }
     }
@@ -60,8 +60,8 @@ class GetPutClientData {
 
     getClientData() {
 
-        let firstName = (<HTMLInputElement>document.getElementById('firstName')!).value;
-        let lastName = (<HTMLInputElement>document.getElementById('lastName')!).value;
+        let firstName: string = (<HTMLInputElement>document.getElementById('firstName')!).value;
+        let lastName: string = (<HTMLInputElement>document.getElementById('lastName')!).value;
 
         if (!(firstName && lastName)) {
             alert('введите имя и фамилию');
@@ -70,23 +70,23 @@ class GetPutClientData {
             return;
         }
 
-        let isActive = (<HTMLInputElement>document.getElementById('isActive')!).checked;
+        let isActive: boolean = (<HTMLInputElement>document.getElementById('isActive')!).checked;
 
         let date: string = '';
 
         if (this.dateEditClient) {
             date = this.dateEditClient;
         } else {
-            let dateArrey = new Date().toString().match(/[A-Za-z]{3}\s\d\d\s\d{4}/);
+            let dateArrey: RegExpMatchArray = new Date().toString().match(/[A-Za-z]{3}\s\d\d\s\d{4}/);
             if (dateArrey !== null)
                 date = dateArrey[0];
         }
 
-        let id = 1;
+        let id: number = 1;
         if (this.idEditClient) {
             id = Number(this.idEditClient);
         } else {
-            for (let i = 0; i < bank.length; i++) {
+            for (let i: number = 0; i < bank.length; i++) {
                 if (id <= bank[i].id) {
                     id = bank[i].id + 1;
                 }
@@ -97,16 +97,16 @@ class GetPutClientData {
         let accountsCredit = document.getElementById('credit')!.getElementsByTagName('fieldset');
         let accounts: Account[] = [];
 
-        for (let i = 0; i < accountsDebet.length; i++) {
-            let newAccount = new Accounts({ accountsForm: accountsDebet[i] }).getAccountsData();
+        for (let i: number = 0; i < accountsDebet.length; i++) {
+            let newAccount: Account = new Accounts({ accountsForm: accountsDebet[i] }).getAccountsData();
 
             if (newAccount) {
                 accounts.push(newAccount);
             }
 
         }
-        for (let i = 0; i < accountsCredit.length; i++) {
-            let newAccount = new Accounts({ accountsForm: accountsCredit[i] }).getAccountsData();
+        for (let i: number = 0; i < accountsCredit.length; i++) {
+            let newAccount: Account = new Accounts({ accountsForm: accountsCredit[i] }).getAccountsData();
 
             if (newAccount) {
                 accounts.push(newAccount);
@@ -155,7 +155,7 @@ class Accounts {
 
     putAccountsData() {
         if ((this.bankAcountsData) && (this.accountsContainer)) {
-            let carrentAccountContainer = this.accountsContainer.lastElementChild;
+            let carrentAccountContainer: Element = this.accountsContainer.lastElementChild;
 
             if (this.bankAcountsData.limit || this.bankAcountsData.limit === 0) {
                 (<HTMLInputElement>carrentAccountContainer!.querySelector('.limit')).value = this.bankAcountsData.limit.toString();
@@ -196,13 +196,13 @@ class Accounts {
     }
 }
 
-function putCalculateData(calculateData, calculateCarrency) {
-    let fieldArrey = document.querySelector('fieldset')!.querySelectorAll('input');
-    for (let i = 0; i < fieldArrey.length; i++) {
+function putCalculateData(calculateData: { [key: string]: number }, calculateCarrency: string) {
+    let fieldArrey: NodeListOf<HTMLInputElement> = document.querySelector('fieldset')!.querySelectorAll('input');
+    for (let i: number = 0; i < fieldArrey.length; i++) {
 
         if (fieldArrey[i].type === 'text') {
             fieldArrey[i].previousSibling!.textContent += calculateCarrency;
-            fieldArrey[i].value = calculateData[fieldArrey[i].id];
+            fieldArrey[i].value = calculateData[fieldArrey[i].id].toString();
         }
     }
 }

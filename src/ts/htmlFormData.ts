@@ -239,7 +239,7 @@ let editUserData: dataHtml[] = [
     },
 ];
 
-let editUserDataHtml = editUserData.concat(createUserData);
+let editUserDataHtml: dataHtml[] = editUserData.concat(createUserData);
 
 let calculateFormData: dataHtml[] = [
     {

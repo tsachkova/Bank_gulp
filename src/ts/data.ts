@@ -45,8 +45,8 @@ class Client {
                     throw new Error("exceeded credit limit");
                 }
 
-                let creditMoney = (accounts[i].ownMoney - accounts[i].limit!) > 0 && accounts[i].limit || accounts[i].ownMoney;
-                let ownMoney = accounts[i].ownMoney - accounts[i].limit!;
+                let creditMoney: number = (accounts[i].ownMoney - accounts[i].limit!) > 0 && accounts[i].limit || accounts[i].ownMoney;
+                let ownMoney: number = accounts[i].ownMoney - accounts[i].limit!;
 
                 this.credit.push(new Account(ownMoney, accounts[i].currency, accounts[i].isActive, accounts[i].dateActive, creditMoney, accounts[i].limit));
 
@@ -64,7 +64,7 @@ class Client {
 }
 
 function getSearchUserData(idClient: string) {
-    for (let i = 0; i < bank.length; i++) {
+    for (let i: number = 0; i < bank.length; i++) {
 
         if (bank[i].id === Number(idClient)) {
             return bank[i];
@@ -73,7 +73,7 @@ function getSearchUserData(idClient: string) {
 }
 
 function deleteUser(idDeleteUser: string | number) {
-    for (let i = 0; i < bank.length; i++) {
+    for (let i: number = 0; i < bank.length; i++) {
 
         if (bank[i].id === Number(idDeleteUser)) {
             bank.splice(i, 1);

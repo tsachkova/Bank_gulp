@@ -1,4 +1,4 @@
-let calculateBankData: {[key:string]:number} = {};
+let calculateBankData: { [key: string]: number } = {};
 
 type Rate = {
     ccy: string,
@@ -22,7 +22,7 @@ function convertMoney(currencyRate: Rate[], requiredCurrency: string, sum: numbe
 
     function getRate(currency: string) {
 
-        for (let i = 0; i < currencyRate.length; i++) {
+        for (let i: number = 0; i < currencyRate.length; i++) {
             if (currency === currencyRate[i].ccy) {
                 rate = currencyRate[i];
             }
@@ -45,9 +45,9 @@ function convertMoney(currencyRate: Rate[], requiredCurrency: string, sum: numbe
     }
 
     if ((sum >= 0) && (currencyAccount !== 'UAH')) {
-        let accountCurrencyRate = getRate(currencyAccount);
+        let accountCurrencyRate: Rate = getRate(currencyAccount);
 
-        let accountUah = sum * Number(accountCurrencyRate.sale);
+        let accountUah: number = sum * Number(accountCurrencyRate.sale);
 
         if (requiredCurrency === 'UAH') {
             return accountUah;
@@ -62,14 +62,14 @@ function convertMoney(currencyRate: Rate[], requiredCurrency: string, sum: numbe
 }
 
 function calculatSumBank(rate: Rate[], requiredCurrency: string, callback: CallbackConvert) {
-    let sumBankUsd = 0;
+    let sumBankUsd: number = 0;
 
-    let rateCurrencyCallback = callback.bind({}, rate, requiredCurrency)
+    let rateCurrencyCallback: (sum: number, currencyAccount: string) => number = callback.bind({}, rate, requiredCurrency)
 
-    for (let i = 0; i < bank.length; i++) {
+    for (let i: number = 0; i < bank.length; i++) {
 
         let { credit, debet } = bank[i];
-        for (let j = 0; j < credit.length; j++) {
+        for (let j: number = 0; j < credit.length; j++) {
             if (credit[j].ownMoney > 0) {
                 sumBankUsd += rateCurrencyCallback(credit[j].ownMoney, credit[j].currency);
             }
@@ -77,7 +77,7 @@ function calculatSumBank(rate: Rate[], requiredCurrency: string, callback: Callb
             sumBankUsd += rateCurrencyCallback(credit[j].creditMoney!, credit[j].currency);
         }
 
-        for (let j = 0; j < bank[i].debet.length; j++) {
+        for (let j: number = 0; j < bank[i].debet.length; j++) {
             sumBankUsd += rateCurrencyCallback(debet[j].ownMoney, debet[j].currency);
         }
     }
@@ -86,10 +86,10 @@ function calculatSumBank(rate: Rate[], requiredCurrency: string, callback: Callb
 }
 
 function calculatDebt(rate: Rate[], requiredCurrency: string, convertCallback: CallbackConvert, sumKey: string, countKey?: string, callback?: CallbackIsActive) {
-    let debt = 0;
-    let countDebt = 0;
+    let debt: number = 0;
+    let countDebt: number = 0;
 
-    for (let i = 0; i < bank.length; i++) {
+    for (let i: number = 0; i < bank.length; i++) {
         let isCalculetData: boolean | undefined;
 
         if (callback) {
@@ -98,10 +98,10 @@ function calculatDebt(rate: Rate[], requiredCurrency: string, convertCallback: C
             isCalculetData = true;
         }
 
-        let count = 0;
+        let count: number = 0;
 
         if (isCalculetData) {
-            for (let j = 0; j < bank[i].credit.length; j++) {
+            for (let j: number = 0; j < bank[i].credit.length; j++) {
 
                 if (bank[i].credit[j].ownMoney < 0) {
                     debt += convertCallback(rate, requiredCurrency, Math.abs(bank[i].credit[j].ownMoney), bank[i].credit[j].currency);
@@ -134,8 +134,8 @@ function debtNotActive(clientData: Client) {
     }
 }
 
-async function toCalculateBankMoney(requiredCurrency:string, callback:CallbackConvert) {
-    let currenRequest = (await fetch('https://api.privatbank.ua/p24api/pubinfo?json&exchange&coursid=5')).json();
+async function toCalculateBankMoney(requiredCurrency: string, callback: CallbackConvert) {
+    let currenRequest: Promise<Rate[]> = (await fetch('https://api.privatbank.ua/p24api/pubinfo?json&exchange&coursid=5')).json();
     currenRequest.then(requestResult => calculatSumBank(requestResult, requiredCurrency, callback))
     currenRequest.then((requestResult) => calculatDebt(requestResult, requiredCurrency, callback, 'sumDebtActive', 'countDebtActiveUser', debtActive))
     currenRequest.then((requestResult) => calculatDebt(requestResult, requiredCurrency, callback, 'sumDebtNotActive', 'countNotActiveDebtor', debtNotActive))

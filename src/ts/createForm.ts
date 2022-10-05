@@ -4,16 +4,16 @@ type CreatElementCallback = (container: HTMLElement) => void;
 let createFormCallback: CreatElementCallback = function (container) {
     mainForm.innerHTML = '';
 
-    let legendCredit = document.createElement('legend');
+    let legendCredit: HTMLLegendElement = document.createElement('legend');
     legendCredit.textContent = 'Кредит';
 
-    let creditContainer = container.querySelector('#credit')!;
+    let creditContainer: Element = container.querySelector('#credit')!;
     creditContainer.append(legendCredit);
 
-    let legendDebet = document.createElement('legend');
+    let legendDebet: HTMLLegendElement = document.createElement('legend');
     legendDebet.textContent = 'Дебит';
 
-    let debitContainer = container.querySelector('#debet')!;
+    let debitContainer: Element = container.querySelector('#debet')!;
     debitContainer.append(legendDebet);
 }
 

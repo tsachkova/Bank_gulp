@@ -14,7 +14,7 @@ class addHtmlForm {
     createNewElement(elementData: dataHtml, elementParent: HTMLElement) {
 
         function createElementForTeg<K extends keyof HTMLElementTagNameMap>(tag: K, options?: ElementCreationOptions): HTMLElementTagNameMap[K] {
-            let element = document.createElement(tag)
+            let element: HTMLElementTagNameMap[K] = document.createElement(tag)
 
             if (options) {
                 Object.assign(element, options);
@@ -23,7 +23,7 @@ class addHtmlForm {
             return element
         }
 
-        let element = createElementForTeg(elementData.element);
+        let element: Element = createElementForTeg(elementData.element);
 
 
         if (typeof elementData.element === 'string') {
@@ -71,7 +71,7 @@ class addHtmlForm {
     }
 
     createFragment() {
-        for (let i = 0; i < this.dataHtml.length; i++) {
+        for (let i: number = 0; i < this.dataHtml.length; i++) {
             let elementData: dataHtml
             let elementParent: HTMLElement;
             elementData = this.dataHtml[i];
@@ -111,12 +111,12 @@ class addHtmlForm {
     }
 
     addSelectOption() {
-        let optionParent = this.container.querySelector('select') as HTMLElement;
+        let optionParent: HTMLElement = this.container.querySelector('select') as HTMLElement;
 
-        let optionValues = ["UAH", "EUR", "USD"];
+        let optionValues: string[] = ["UAH", "EUR", "USD"];
 
-        for (let i = 0; i < optionValues.length; i++) {
-            let options = document.createElement('option');
+        for (let i: number = 0; i < optionValues.length; i++) {
+            let options: HTMLOptionElement = document.createElement('option');
             options.value = optionValues[i];
             options.innerHTML = optionValues[i];;
             optionParent.append(options);

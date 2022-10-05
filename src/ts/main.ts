@@ -1,9 +1,9 @@
 
 document.body.append(document.createElement('form'));
-let mainForm = document.querySelector('form')!;
+let mainForm: HTMLFormElement = document.querySelector('form')!;
 mainForm.id = 'mainForm';
 
-let startParents = document.querySelector('form') as HTMLElement;
+let startParents: HTMLElement = document.querySelector('form') as HTMLElement;
 new addHtmlForm(startParents, startHtmlData).createFragment().addSelectOption().addFragment();
 
 listiners();
@@ -49,7 +49,7 @@ function listiners() {
             }
 
             if ((<HTMLInputElement>event.target).id === "search") {
-                let searchUserData = getSearchUserData((<HTMLInputElement>document.querySelector('#id')!).value);
+                let searchUserData: Client = getSearchUserData((<HTMLInputElement>document.querySelector('#id')!).value);
                 clearParents(document.querySelector('#mainForm')!);
                 new addHtmlForm(document.querySelector('#mainForm')!, editUserDataHtml, editFormCallback).createFragment().addFragment();
                 editedClientGetPut = new GetPutClientData(searchUserData);
@@ -71,7 +71,7 @@ function listiners() {
             }
 
             if ((<HTMLInputElement>event.target).id === "calculateBank") {
-                let calculateCurrency = (<HTMLInputElement>document.getElementById('calculateCurrency')!).value;
+                let calculateCurrency: string = (<HTMLInputElement>document.getElementById('calculateCurrency')!).value;
                 toCalculateBankMoney(calculateCurrency, convertMoney);
                 clearParents(document.querySelector('#mainForm')!);
                 new addHtmlForm(document.querySelector('#mainForm')!, calculateFormData).createFragment().addFragment();
