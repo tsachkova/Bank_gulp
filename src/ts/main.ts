@@ -9,7 +9,7 @@ new addHtmlForm(startParents, startHtmlData).createFragment().addSelectOption().
 listiners();
 
 function listiners() {
-    document.body.addEventListener('click', function (event) {
+    document.body.addEventListener('click', function (event:MouseEvent) {
         if (event.target) {
             if ((<HTMLInputElement>event.target).id === "createUser") {
                 clearParents(document.querySelector('#mainForm')!);
@@ -79,7 +79,7 @@ function listiners() {
         }
     })
 
-    document.body.addEventListener('focusout', function (event) {
+    document.body.addEventListener('focusout', function (event:FocusEvent) {
         event.preventDefault();
         if ((<HTMLInputElement>event.target).classList.contains("ownSum") || (<HTMLInputElement>event.target).classList.contains("limit")) {
 
