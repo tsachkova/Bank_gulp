@@ -1,5 +1,3 @@
-let calculateBankData: { [key: string]: number } = {};
-
 type Rate = {
     ccy: string,
     base_ccy: string,
@@ -7,9 +5,13 @@ type Rate = {
     sale: string
 }
 
-type CallbackConvert = (currencyRate: Rate[], requiredCurrency: string, sum: number, currencyAccount: string) => number
+type CallbackConvert = (currencyRate: Rate[], requiredCurrency: string, sum: number, currencyAccount: string) => number;
 
-function convertMoney(currencyRate: Rate[], requiredCurrency: string, sum: number, currencyAccount: string) {
+type CallbackIsActive = (clientData: Client) => boolean | undefined;
+
+let calculateBankData: { [key: string]: number } = {};
+
+let convertMoney: CallbackConvert = function (currencyRate: Rate[], requiredCurrency: string, sum: number, currencyAccount: string) {
     if ((requiredCurrency.length !== 3) && (typeof requiredCurrency !== 'string')) {
         throw new Error("invalid currency type format");
     }
@@ -61,7 +63,7 @@ function convertMoney(currencyRate: Rate[], requiredCurrency: string, sum: numbe
     }
 }
 
-function calculatSumBank(rate: Rate[], requiredCurrency: string, callback: CallbackConvert) {
+function calculatSumBank(rate: Rate[], requiredCurrency: string, callback: CallbackConvert): void {
     let sumBankUsd: number = 0;
 
     let rateCurrencyCallback: (sum: number, currencyAccount: string) => number = callback.bind({}, rate, requiredCurrency)
@@ -85,7 +87,7 @@ function calculatSumBank(rate: Rate[], requiredCurrency: string, callback: Callb
     calculateBankData['allBankSum'] = sumBankUsd;
 }
 
-function calculatDebt(rate: Rate[], requiredCurrency: string, convertCallback: CallbackConvert, sumKey: string, countKey?: string, callback?: CallbackIsActive) {
+function calculatDebt(rate: Rate[], requiredCurrency: string, convertCallback: CallbackConvert, sumKey: string, countKey?: string, callback?: CallbackIsActive): void {
     let debt: number = 0;
     let countDebt: number = 0;
 
@@ -120,15 +122,15 @@ function calculatDebt(rate: Rate[], requiredCurrency: string, convertCallback: C
     }
 }
 
-type CallbackIsActive = (clientData: Client) => boolean | undefined;
 
-function debtActive(clientData: Client) {
+
+let debtActive: CallbackIsActive = function (clientData: Client) {
     if (clientData.isActive) {
         return true;
     }
 }
 
-function debtNotActive(clientData: Client) {
+let debtNotActive: CallbackIsActive = function (clientData: Client) {
     if (!clientData.isActive) {
         return true;
     }
